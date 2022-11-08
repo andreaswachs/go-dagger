@@ -1,6 +1,6 @@
 on:
-  push
-
+  push:
+  workflow_dispatch:
 
 jobs:
   testing:
