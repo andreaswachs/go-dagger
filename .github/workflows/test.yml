@@ -1,0 +1,15 @@
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    name: Testing go-dagger@v1 action
+    steps:
+      - uses: actions/checkout@v3
+      - uses: andreaswachs/go-dagger@v1
+        with:
+          working-directory: tests
+          args: alice bob carol
+

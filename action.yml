@@ -41,5 +41,6 @@ runs:
         cache-dependency-path: ${{ inputs.working-directory }}/go.sum
 
     - name: ${{ inputs.name }}
+      shell: bash
       run: go mod tidy && go run ${{ inputs.filename }} ${{ inputs.args }}
-      working-directory: pipelines
+      working-directory: ${{ inputs.working-directory }}
