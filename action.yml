@@ -1,0 +1,45 @@
+name: 'Dagger golang utils'
+description: 'Run a golang Dagger CI/CD pipeline'
+inputs:
+  # Args for the golang program
+  args:
+    description: 'Arguments to the program'
+    required: false
+    default: ''
+    
+  # Override the default filename for the main golang file
+  filename:
+    description: 'The Dagger main source file'
+    required: false
+    default: 'main.go'
+    
+  # Set the working directory
+  working-directory:
+    description: 'Path to the Dagger CI/CD root folder'
+    required: false
+    default: '.'
+    
+  # Set the go-version to run the Dagger tool at
+  go-version:
+    description: 'Set go-version'
+    required: false
+    default: '1.18'
+    
+  # The name of the task to run the Dagger CI/CD tool
+  name:
+    description: 'Set the name of the task'
+    required: false
+    default: 'Dagger CI/CD'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: ${{ inputs.go-version }}
+        check-latest: true
+        cache: true
+        cache-dependency-path: ${{ inputs.working-directory }}/go.sum
+
+    - name: ${{ inputs.name }}
+      run: go mod tidy && go run ${{ inputs.filename }} ${{ inputs.args }}
+      working-directory: pipelines
